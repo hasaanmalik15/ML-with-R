@@ -1,8 +1,9 @@
-#using ISLR package for linear regression 
+#using ISLR package
 
 install.packages("ISLR")
 library(ISLR)
-#Question 2, part (a)
+
+##linear regression with weight as the response and horsepower as the predictor
 data("Auto")
 lm_auto <- lm(weight ~ horsepower, data = Auto)
 summary(lm_auto)
@@ -12,7 +13,7 @@ pred_confidence
 pred_prediction <- predict(lm_auto, new_auto_data, interval = 'prediction', level = 0.97)
 pred_prediction
 
-#linear regression with weight as the response and horsepower as the predictor
+#plotting the response and the predictor
 plot(Auto$horsepower, Auto$weight, xlab = 'Horsepower', ylab = 'Weight')
 abline(lm_auto, col = 'red')
 

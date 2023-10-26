@@ -1,3 +1,6 @@
+#wine quality data to train a support vector machine to predict
+
+#using caret, e1071 and ROCR libraries 
 install.packages("e1071")
 install.packages("caret")
 library(e1071)
@@ -7,14 +10,16 @@ library(pROC)
 install.packages("ROCR")
 library(ROCR)
 
-#Question 4, part(a)
+#grid-search to find the optimal parameter of svm by using the linear kernel (cost=c(0.1,1,10)).
 WineQuality_Training$quality <- as.factor(WineQuality_Training$quality)
 
 set.seed(1)
 tune_linear <- tune(svm, quality ~ ., data = WineQuality_Training, kernel = "linear", ranges = list(cost = c(0.1, 1, 10)))
 summary(tune_linear$best.parameters)
 
-#Question 4, part(b)
+#Train a svm classifier with linear kernel and the optimal parameter. make predictions on the testing dataset.
+#evaluate the performance 
+
 svm_linear <- svm(quality ~ ., data = WineQuality_Training, kernel = "linear", cost = 1, probability = TRUE)
 svm_linear_prediction <- predict(svm_linear, WineQuality_Testing, probability = TRUE)
 svm_linear_accuracy <- sum(svm_linear_prediction == WineQuality_Testing$quality) / length(svm_linear_prediction)
@@ -23,12 +28,15 @@ print(svm_linear_accuracy)
 print(svm_linear_probability)
 
 
-#Question 4, part(c)
+#grid-search to find the optimal parameters of SVM. use RBF kernel (cost=c(0.1,1,10) and gamma=c(0.1,0.5,1.0)).
+
 set.seed(1)
 tune_radial <- tune(svm, quality ~ ., data = WineQuality_Training, kernel = "radial", ranges = list(cost = c(0.1, 1, 10), gamma = c(0.1, 0.5, 1)))
 summary(tune_radial$best.parameters)
 
-#Question 4, part (d)
+#Train a svm classifier with RBF kernel and the optimal parameter. make predictions on the testing dataset.
+#evaluate the performance 
+
 svm_radial <- svm(quality ~ ., data = WineQuality_Training, kernel = "radial", cost = 1, gamma = 1, probability = TRUE)
 svm_radial_prediction <- predict(svm_radial, WineQuality_Testing, probability = TRUE)
 svm_radial_accuracy <- sum(svm_radial_prediction == WineQuality_Testing$quality) / length(svm_radial_prediction)
@@ -37,7 +45,8 @@ print(svm_radial_accuracy)
 print(svm_radial_probability)
 
 
-#Question 4, part (e)
+#ROC curve to evaluate performance of two SVM classifies using linear and RBF kernels. 
+
 WineQuality_Testing$binary_quality <- ifelse(WineQuality_Testing$quality == "Good", 1, 0)
 decision_values_linear = attr(svm_linear_probability, "decision.values")
 decision_values_radial = attr(svm_radial_probability, "decision.values")
