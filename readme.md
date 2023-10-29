@@ -1,8 +1,8 @@
-Machine Learning Project with R Programming
+<h2>Machine Learning Project with R Programming</h2>
 
 This project is all about using R programming and relevant libraries to apply machine learning algorithms to solve problems and analyze data. Here's a brief overview of what's done in the project:
 
-In this project, we used R to develop and evaluate machine learning models. I focused on the following key algorithms:
+In this project, I used R programming to develop and evaluate machine learning models. I focused on the following key algorithms:
 
 Linear Regression: Used linear regression to predict numeric outcomes based on predictor variables. Auto dataset was used that is included in the “ISLR” package.
 
